@@ -12,6 +12,8 @@ class Concentration{
     
     private(set) var cards = [Card]()
     
+    private(set) var matchedPairs = 0
+    
     private var indexOfSingleFaceUpCard: Int? {
         get{
             var foundIndex : Int?
@@ -34,19 +36,26 @@ class Concentration{
         }
     }
     
-    func chooseCard(at index:Int){
+    func chooseCard(at index:Int) -> Card{
+        print("card clicked",cards[index])
         assert(cards.indices.contains(index),"chooseCard method ... index not found\(index)")
         if !cards[index].isMatched {
             if let matchIndex = indexOfSingleFaceUpCard , matchIndex != index{
                 if cards[matchIndex] == cards[index]{
+                    print("in if matching condition...")
                     cards[matchIndex].isMatched = true
                     cards[index].isMatched = true
+                    matchedPairs += 1
+                    cards[matchIndex].shouldHide = true
+                    cards[index].shouldHide = true
+                    print(matchedPairs,"is the no of pairs already matched")
                 }
                 cards[index].isFaceUp = true
             }else{
                 indexOfSingleFaceUpCard = index
             }
         }
+        return cards[index]
     }
     
     init(noOfPairsOfCards: Int){
