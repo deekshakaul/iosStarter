@@ -13,7 +13,6 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     var tableView = UITableView()
     var tableArray:NSArray?
     
-    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
             guard self.tableArray == nil else{
                 return self.tableArray!.count
@@ -24,12 +23,8 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "my", for: indexPath)
         guard self.tableArray == nil else{
-            print(tableArray![indexPath.row])
-            for (key, val) in self.tableArray![indexPath.row] as! NSDictionary{
-                if String(describing: key) == "title"{
-                    cell.textLabel!.text = String(describing: val)
-                }
-            }
+            let row = tableArray![indexPath.row] as! NSDictionary
+            cell.textLabel!.text = String(describing: row["title"]!)
             return cell
         }
         return cell
@@ -47,10 +42,9 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         self.tableView.tableFooterView = UIView()
         
         activityIndicator.showActivityIndicator()
+        
         NSUrl.parseJSON(completion: {result in
             self.tableArray = result
-            print(self.tableArray!.count)
-
             self.tableView.reloadData()
             activityIndicator.stopActivityIndicator()
             
