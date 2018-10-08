@@ -8,12 +8,12 @@
 
 import UIKit
 
-class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
-    var NSUrl = NSUrlSessionExample()
+class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource{
+    
+    var row = NSDictionary()
+    var NSUrl = TrialExample()
     var tableView = UITableView()
     var tableArray:NSArray?
-    
-    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
             guard self.tableArray == nil else{
                 return self.tableArray!.count
@@ -22,10 +22,16 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "my", for: indexPath)
+        
+        let cell: CustomTableViewCell = tableView.dequeueReusableCell(withIdentifier: "my", for: indexPath) as! CustomTableViewCell
         guard self.tableArray == nil else{
-            let row = tableArray![indexPath.row] as! NSDictionary
-            cell.textLabel!.text = String(describing: row["title"]!)
+            self.row = tableArray![indexPath.row] as! NSDictionary
+            let imageName = "/Users/de32222t/Downloads/em2.jpg"
+            let image = UIImage(named: imageName)
+            cell.cellImage.frame = CGRect(x: 40, y: 0, width: 40, height: 40)
+            cell.cellImage.image = image
+            cell.cellLabel.text = self.row["title"]! as! String
+            cell.cellLabel.frame = CGRect(x:100, y:0, width: 200, height: 40)
             return cell
         }
         return cell
@@ -38,18 +44,17 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         tableView.dataSource = self
         tableView.delegate = self
         tableView.backgroundColor = UIColor.white
-        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "my")
+        tableView.register(CustomTableViewCell.self, forCellReuseIdentifier: "my")
         view.addSubview(tableView)
         self.tableView.tableFooterView = UIView()
         
         activityIndicator.showActivityIndicator()
+        
         NSUrl.parseJSON(completion: {result in
             self.tableArray = result
             self.tableView.reloadData()
             activityIndicator.stopActivityIndicator()
-            
         })
-        
     }
 
 }
