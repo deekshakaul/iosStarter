@@ -1,0 +1,6 @@
+framework module Pods_ParseJsonFromApiResponseExample {
+  umbrella header "Pods-ParseJsonFromApiResponseExample-umbrella.h"
+
+  export *
+  module * { export * }
+}
