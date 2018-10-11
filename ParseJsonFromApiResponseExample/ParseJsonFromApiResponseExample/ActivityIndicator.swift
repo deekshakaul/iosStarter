@@ -31,8 +31,9 @@ struct ActivityIndicator {
     }
     
     func stopActivityIndicator() {
+        print("CALLED...")
+        loadingTextLabel.removeFromSuperview()
         activityIndicatorView.stopAnimating()
         activityIndicatorView.removeFromSuperview()
-        loadingTextLabel.removeFromSuperview()
     }
 }

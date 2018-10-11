@@ -20,35 +20,42 @@ class CustomTableViewCell: UITableViewCell{
     
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
+        profileImageView.contentMode = .scaleAspectFit
+        profileImageView.clipsToBounds = true
+        cellLabel.translatesAutoresizingMaskIntoConstraints = false
+        cellDescription.translatesAutoresizingMaskIntoConstraints = false
+        cellLabel.numberOfLines = 0
+        cellDescription.numberOfLines = 0
+        cellDescription.lineBreakMode = .byWordWrapping
+        
         // image layout
         contentView.addSubview(profileImageView)
         contentView.addSubview(cellLabel)
         contentView.addSubview(cellDescription)
-        profileImageView.contentMode = .scaleAspectFit
-        profileImageView.topAnchor.constraint(equalTo: contentView.topAnchor).isActive = true
-        profileImageView.centerYAnchor.constraint(equalTo:self.contentView.centerYAnchor).isActive = true
-        profileImageView.leadingAnchor.constraint(equalTo:self.contentView.leadingAnchor, constant:10).isActive = true
-        profileImageView.widthAnchor.constraint(equalToConstant:70).isActive = true
-        profileImageView.heightAnchor.constraint(equalToConstant:70).isActive = true
-        profileImageView.bottomAnchor.constraint(greaterThanOrEqualTo: self.bottomAnchor, constant: 10)
+        NSLayoutConstraint.activate([
+        profileImageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10),
+        profileImageView.leadingAnchor.constraint(equalTo:self.contentView.leadingAnchor, constant:10),
+        profileImageView.widthAnchor.constraint(equalToConstant:40),
+        profileImageView.heightAnchor.constraint(equalToConstant:40),
+
         // label layout
-        cellLabel.translatesAutoresizingMaskIntoConstraints = false
-        cellLabel.leadingAnchor.constraint(equalTo: profileImageView.trailingAnchor).isActive = true
-        cellLabel.topAnchor.constraint(equalTo: self.topAnchor).isActive = true
-        cellLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor).isActive = true
-        cellLabel.numberOfLines = 0
+
+        cellLabel.leadingAnchor.constraint(equalTo: profileImageView.trailingAnchor, constant: 10),
+        cellLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant:10),
+        cellLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor),
+        cellLabel.heightAnchor.constraint(equalToConstant: 40),
+
         // description layout
-        cellDescription.translatesAutoresizingMaskIntoConstraints = false
-        cellDescription.topAnchor.constraint(equalTo: cellLabel.bottomAnchor).isActive = true
-        cellDescription.leadingAnchor.constraint(equalTo: cellLabel.leadingAnchor).isActive = true
-        cellDescription.bottomAnchor.constraint(equalTo: contentView.bottomAnchor).isActive = true
-        cellDescription.trailingAnchor.constraint(equalTo: self.trailingAnchor).isActive = true
-        cellDescription.heightAnchor.constraint(greaterThanOrEqualToConstant: 200)
-        cellDescription.lineBreakMode = .byWordWrapping
-        cellDescription.numberOfLines = 0
+        cellDescription.topAnchor.constraint(equalTo: cellLabel.bottomAnchor, constant:10),
+        cellDescription.leadingAnchor.constraint(equalTo: cellLabel.leadingAnchor),
+        cellDescription.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant:-10),
+        cellDescription.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10),
+        ])
+
     }
-    
+
     required init?(coder aDecoder: NSCoder) {
         fatalError("some error")
     }
+
 }

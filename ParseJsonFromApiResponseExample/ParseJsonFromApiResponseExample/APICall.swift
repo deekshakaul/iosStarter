@@ -19,12 +19,18 @@ class APICall {
         let task = URLSession.shared.dataTask(with: url!) {
             (data, response, error) in do{
                 print(data)
-                let jsonString = String(decoding: data!, as: UTF8.self)
-                let jsonData: Data? = jsonString.data(using: .utf8)
-
-                let str = try JSONSerialization.jsonObject(with: jsonData!) as! NSDictionary
-                print(str["rows"]!, type(of: str["rows"]!))
-                completion(str["rows"]! as! NSArray)
+                if data == nil{
+                    print("IF")
+                    completion([])
+                }
+                else{
+                    let jsonString = String(decoding: data!, as: UTF8.self)
+                    let jsonData: Data? = jsonString.data(using: .utf8)
+                    
+                    let str = try JSONSerialization.jsonObject(with: jsonData!) as! NSDictionary
+                    print(str["rows"]!, type(of: str["rows"]!))
+                    completion(str["rows"]! as! NSArray)
+                }
             }
             catch {
                 print("json error: \(error)")
