@@ -11,6 +11,7 @@ import UIKit
 class CustomTableViewCell: UITableViewCell{
     var cellLabel = UILabel()
     var cellDescription = UILabel()
+    
     let profileImageView:UIImageView = {
         let img = UIImageView()
         img.translatesAutoresizingMaskIntoConstraints = false // enable autolayout
@@ -20,6 +21,19 @@ class CustomTableViewCell: UITableViewCell{
     
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
+        var imageSize: CGFloat = 40.0
+        var fontPhone: CGFloat = 12.0
+        var fontIPad: CGFloat = 20.0
+        if UIDevice().userInterfaceIdiom == .phone{
+            imageSize = 40.0
+            cellDescription.font = UIFont(name: cellLabel.font.familyName, size: fontPhone)
+            cellLabel.font = UIFont(name: cellLabel.font.familyName, size: fontPhone)
+        }
+        else{
+            imageSize = 70.0
+            cellDescription.font = UIFont(name: cellLabel.font.familyName, size: fontIPad)
+            cellLabel.font = UIFont(name: cellLabel.font.familyName, size: fontIPad)
+        }
         profileImageView.contentMode = .scaleAspectFit
         profileImageView.clipsToBounds = true
         cellLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -35,15 +49,15 @@ class CustomTableViewCell: UITableViewCell{
         NSLayoutConstraint.activate([
         profileImageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10),
         profileImageView.leadingAnchor.constraint(equalTo:self.contentView.leadingAnchor, constant:10),
-        profileImageView.widthAnchor.constraint(equalToConstant:40),
-        profileImageView.heightAnchor.constraint(equalToConstant:40),
+        profileImageView.widthAnchor.constraint(equalToConstant:imageSize),
+        profileImageView.heightAnchor.constraint(equalToConstant:imageSize),
 
         // label layout
 
         cellLabel.leadingAnchor.constraint(equalTo: profileImageView.trailingAnchor, constant: 10),
         cellLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant:10),
         cellLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor),
-        cellLabel.heightAnchor.constraint(equalToConstant: 40),
+        cellLabel.heightAnchor.constraint(equalToConstant: imageSize),
 
         // description layout
         cellDescription.topAnchor.constraint(equalTo: cellLabel.bottomAnchor, constant:10),
