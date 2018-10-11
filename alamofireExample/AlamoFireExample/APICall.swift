@@ -17,36 +17,13 @@ class APICall {
     var rows = [{}]
     
     func parseJSON( completion : @escaping (NSArray) ->Void) {
-        let url = URL(string: "https://dl.dropboxusercontent.com/s/2iodh4vg0eortkl/facts")
-//        let task = URLSession.shared.dataTask(with: url!) {
-//            (data, response, error) in do{
-//                print(data)
-//                if data == nil{
-//                    print("IF")
-//                    completion([])
-//                }
-//                else{
-//                    let jsonString = String(decoding: data!, as: UTF8.self)
-//                    let jsonData: Data? = jsonString.data(using: .utf8)
-//
-//                    let str = try JSONSerialization.jsonObject(with: jsonData!) as! NSDictionary
-//                    print(str["rows"]!, type(of: str["rows"]!))
-//                    completion(str["rows"]! as! NSArray)
-//                }
-//            }
-//            catch {
-//                print("json error: \(error)")
-//            }
-//        }
         
         Alamofire.request("https://dl.dropboxusercontent.com/s/2iodh4vg0eortkl/facts").responseJSON { (responseData) -> Void in
-            print("1",responseData.data)
-            print(type(of: responseData.data), type(of: responseData.result.value))
+       
             if((responseData.data) != nil) {
                 do {
                     let jsonString = String(decoding: responseData.data!, as: UTF8.self)
                     let jsonData: Data? = jsonString.data(using: .utf8)
-                    
                     let str = try JSONSerialization.jsonObject(with: jsonData!) as! NSDictionary
                     print(str["rows"]!, type(of: str["rows"]!))
                     completion(str["rows"]! as! NSArray)
